@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753103954376",
+    "project_id": "socialqr-d2f3e",
+    "storage_bucket": "socialqr-d2f3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753103954376:android:f06e8a41b54fc227a120fd",
+        "android_client_info": {
+          "package_name": "com.socialqr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8qr9dRtBJyb_Q8ygIh3iz1WC8Yp0J5iQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
