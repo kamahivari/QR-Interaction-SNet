@@ -156,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
         debugPrint("Email : ${emailController.text}");
         debugPrint("Password : ${passwordController.text}");
 
-        AuthService().registerUser(name: nameController.text, email: emailController.text, password: passwordController.text);
+        AuthService().signUp(name: nameController.text, email: emailController.text, password: passwordController.text);
       },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
