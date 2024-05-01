@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_1/home_page.dart';
 import 'package:flutter_application_1/login_page.dart';
 import 'package:flutter_application_1/register_page.dart';
 import 'firebase_options.dart';
@@ -21,7 +22,7 @@ class MainApp extends StatelessWidget {
      
       
       debugShowCheckedModeBanner: false,
-      home:RegisterPage(),
+      home:LoginPage(),
       );
       
     

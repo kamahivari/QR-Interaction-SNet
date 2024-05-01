@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/register_page.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -89,8 +90,9 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(
               color: myColor, fontSize: 32, fontWeight: FontWeight.w500),
         ),
-        _buildGreyText("Lütfen giriş yapın"),
-        const SizedBox(height: 60),
+        _buildGreyText("Lütfen giriş yapın veya kayıt olun"),
+
+        const SizedBox(height: 40),
         _buildGreyText("Email adresiniz"),
         _buildInputField(emailController),
         const SizedBox(height: 40),
@@ -101,6 +103,16 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 20),
         _buildLoginButton(),
         const SizedBox(height: 20),
+        TextButton(
+            onPressed: () {
+              Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => RegisterPage(
+       
+    )),
+  );
+            }, child: _buildBlueText("Kaydınız yok mu? Hemen kayıt oluşturun."),),
         _buildOtherLogin(),
       ],
     );
@@ -110,6 +122,12 @@ class _LoginPageState extends State<LoginPage> {
     return Text(
       text,
       style: const TextStyle(color: Colors.grey),
+    );
+  }
+   Widget _buildBlueText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(color: Color.fromRGBO(0, 180, 255, 1)),
     );
   }
 
@@ -151,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         debugPrint("Email : ${emailController.text}");
         debugPrint("Password : ${passwordController.text}");
-        AuthService().signIn(email: emailController.text, password: passwordController.text);
+        AuthService().signIn(email: emailController.text, password: passwordController.text,context:context);
       },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
@@ -162,6 +180,8 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text("GİRİŞ"),
     );
   }
+
+  
 
   Widget _buildOtherLogin() {
     return Center(
