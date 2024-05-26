@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class LabelDetailView extends StatelessWidget {
   final String labelId;
@@ -87,6 +88,12 @@ class LabelDetailView extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: Text("Update"),
+                ),
+                SizedBox(height: 20),
+                QrImageView(
+                  data: labelId,
+                  version: QrVersions.auto,
+                  size: 200.0,
                 ),
               ],
             ),
