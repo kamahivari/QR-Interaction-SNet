@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/auth_service.dart';
+import 'package:flutter_application_1/register_page.dart';
 import 'package:provider/provider.dart';
+import '../services/auth_service.dart';
 
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-  
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginViewState extends State<LoginView> {
   late Color myColor;
   late Size mediaSize;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool rememberUser = false;//Sonra degistirilecek
+  bool rememberUser = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-     final authService = Provider.of<AuthService>(context);
-    myColor = Color.fromRGBO(0, 180, 255, 1);//ana renk
+    final authService = Provider.of<AuthService>(context);
+    myColor = Color.fromRGBO(0, 180, 255, 1); // ana renk
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
@@ -72,10 +72,11 @@ class _LoginPageState extends State<LoginPage> {
       width: mediaSize.width,
       child: Card(
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        )),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: _buildForm(),
@@ -105,6 +106,16 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 20),
         _buildLoginButton(),
         const SizedBox(height: 20),
+        TextButton(
+            onPressed: () {
+              Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => RegisterPage(
+       
+    )),
+  );
+            }, child: _buildBlueText("Kaydınız yok mu? Hemen kayıt oluşturun."),),
         _buildOtherLogin(),
       ],
     );
@@ -116,9 +127,15 @@ class _LoginPageState extends State<LoginPage> {
       style: const TextStyle(color: Colors.grey),
     );
   }
+  Widget _buildBlueText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(color: Color.fromRGBO(0, 180, 255, 1)),
+    );
+  }
 
   Widget _buildInputField(TextEditingController controller,
-      {isPassword = false}) {
+      {bool isPassword = false}) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -135,28 +152,30 @@ class _LoginPageState extends State<LoginPage> {
         Row(
           children: [
             Checkbox(
-                value: rememberUser,
-                onChanged: (value) {
-                  setState(() {
-                    rememberUser = value!;
-                  });
-                }),
+              value: rememberUser,
+              onChanged: (value) {
+                setState(() {
+                  rememberUser = value!;
+                });
+              },
+            ),
             _buildGreyText("Beni Hatırla"),
           ],
         ),
         TextButton(
-            onPressed: () {}, child: _buildGreyText("Şifremi unuttum"))
+          onPressed: () {},
+          child: _buildGreyText("Şifremi unuttum"),
+        )
       ],
     );
   }
 
   Widget _buildLoginButton() {
-     final authService = Provider.of<AuthService>(context);
+    final authService = Provider.of<AuthService>(context);
     return ElevatedButton(
-      onPressed: () {
-        debugPrint("Email : ${emailController.text}");
-        debugPrint("Password : ${passwordController.text}");
-       AuthService().signIn( emailController.text, passwordController.text);
+      onPressed: () async {
+        await authService.signIn(
+            emailController.text, passwordController.text);
       },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
@@ -177,11 +196,48 @@ class _LoginPageState extends State<LoginPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-             
               Tab(icon: Image.asset("assets/images/github.png")),
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class RegisterView extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
+    return Scaffold(
+      appBar: AppBar(title: Text("Register")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(labelText: "Email"),
+            ),
+            TextField(
+              controller: passwordController,
+              decoration: InputDecoration(labelText: "Password"),
+              obscureText: true,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await authService.register(
+                    emailController.text, passwordController.text);
+              },
+              child: Text("Register"),
+            ),
+          ],
+        ),
       ),
     );
   }

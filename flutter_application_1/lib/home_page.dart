@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ?.copyWith(color: Colors.white54)),
                   trailing: const CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage('assets/images/user.jpg'),
+                    backgroundImage: AssetImage('assets/images/user.JPG'),
                   ),
                 ),
                 const SizedBox(height: 30)

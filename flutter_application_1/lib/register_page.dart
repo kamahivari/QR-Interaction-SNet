@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/home_view.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
+import 'package:provider/provider.dart';
+
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -151,12 +154,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildRegisterButton() {
+     final authService = Provider.of<AuthService>(context);
     return ElevatedButton(
-      onPressed: () {
-        debugPrint("Email : ${emailController.text}");
-        debugPrint("Password : ${passwordController.text}");
-
-        AuthService().signUp(name: nameController.text, email: emailController.text, password: passwordController.text, context: context);
+      onPressed: () async {
+                try {
+                  await authService.register(emailController.text, passwordController.text);
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeView()));
+                } catch (e) {
+                  print(e);
+                  // Kullanıcıya hata mesajı gösterilebilir
+                }
       },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
