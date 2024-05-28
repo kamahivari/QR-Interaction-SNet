@@ -44,6 +44,7 @@ class LabelDetailView extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
                   controller: baslikController,
@@ -91,7 +92,7 @@ class LabelDetailView extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 QrImageView(
-                  data: labelId,
+                  data: '$userId|$labelId',
                   version: QrVersions.auto,
                   size: 200.0,
                 ),
