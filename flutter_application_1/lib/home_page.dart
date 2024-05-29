@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/account_screen.dart';
 import 'package:flutter_application_1/home_view.dart';
 import 'package:flutter_application_1/label_detail_view.dart';
 import 'package:flutter_application_1/qr_scanner_view.dart';
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ?.copyWith(color: Colors.white54)),
                       trailing: const CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage('assets/images/user.JPG'),
+                        backgroundImage: AssetImage('assets/images/avatar.png'),
                       ),
                     ),
                     
@@ -129,6 +130,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   }),
                   itemDashboard(
                       'Ayarlar ', CupertinoIcons.settings, Colors.grey, () {
+                         Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AccountScreen()),
+              );
                     print('Ayarlar tıklandı');
                   }),
                   itemDashboard(

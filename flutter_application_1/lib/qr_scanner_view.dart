@@ -28,7 +28,7 @@ class _QrScannerViewState extends State<QrScannerView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 200, 0, 177),
-        title: Text('Scan QR Code'),
+        title: Text('sQR Kodu Tarayın'),
       ),
       body: Column(
         children: <Widget>[

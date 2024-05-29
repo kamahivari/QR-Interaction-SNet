@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/edit_screen.dart';
+import 'package:flutter_application_1/home_page.dart';
 import 'package:flutter_application_1/widgets/forward_button.dart';
 import 'package:flutter_application_1/widgets/setting_item.dart';
 import 'package:flutter_application_1/widgets/setting_switch.dart';
@@ -20,7 +21,11 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+             Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+              );
+          },
           icon: const Icon(Ionicons.chevron_back_outline),
         ),
         leadingWidth: 80,
