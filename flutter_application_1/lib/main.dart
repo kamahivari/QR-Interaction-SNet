@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/account_screen.dart';
+import 'package:flutter_application_1/home_page.dart';
 
 import 'package:provider/provider.dart';
 import 'services/auth_service.dart';
 import 'home_view.dart';
 import 'login_view.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class AuthWrapper extends StatelessWidget {
       builder: (_, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
-          return user == null ? LoginView() : HomeView();
+          return user == null ? LoginView() : AccountScreen();
         } else {
           return Scaffold(
             body: Center(child: CircularProgressIndicator()),

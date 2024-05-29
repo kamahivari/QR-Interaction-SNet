@@ -10,10 +10,12 @@ dependencies:
   cloud_firestore: ^4.17.0
   firebase_auth: ^4.19.2
   firebase_core: ^2.30.0
+  
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.5
   get: ^4.6.6
+  ionicons: ^0.2.2
   provider: ^6.1.2
   qr_flutter: ^4.1.0
   
