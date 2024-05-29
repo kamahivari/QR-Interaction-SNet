@@ -24,6 +24,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Etiketlerim"),
+         backgroundColor: Color.fromARGB(255, 0, 151, 101),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),

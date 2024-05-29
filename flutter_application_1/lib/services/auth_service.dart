@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get user => _auth.authStateChanges();
 
@@ -16,9 +18,14 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(String email, String password, String name) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      // Kullanıcı oluşturulduktan sonra Firestore'a kullanıcı bilgilerini kaydet
+    await _firestore.collection('users').doc(currentUser!.uid).set({
+      'name': name,
+      'email': email,
+    });
       
     } catch (e) {
       print(e);

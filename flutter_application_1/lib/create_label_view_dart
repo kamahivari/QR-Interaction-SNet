@@ -17,18 +17,19 @@ class CreateLabelView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Create Label")),
+      appBar: AppBar(title: Text("Etiket Oluştur")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: baslikController,
-              decoration: InputDecoration(labelText: "Baslik"),
+              decoration: InputDecoration(labelText: "Baslik",border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12)))
             ),
             TextField(
               controller: adController,
-              decoration: InputDecoration(labelText: "Ad"),
+              decoration: InputDecoration(labelText: "Ad",),
             ),
             TextField(
               controller: soyadController,

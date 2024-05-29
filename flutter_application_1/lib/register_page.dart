@@ -158,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return ElevatedButton(
       onPressed: () async {
                 try {
-                  await authService.register(emailController.text, passwordController.text);
+                  await authService.register(emailController.text, passwordController.text,nameController.text);
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeView()));
                 } catch (e) {
                   print(e);
