@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
 
 import 'label_detail_view.dart';
+import 'qr_scanner_view.dart';  // QR tarayıcı ekranını ekleyin
 
 class HomeView extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -22,12 +23,20 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Etiketlerim"),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
               await authService.signOut();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.qr_code_scanner),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => QrScannerView()),
+              );
             },
           )
         ],

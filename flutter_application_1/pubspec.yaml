@@ -17,6 +17,7 @@ dependencies:
   get: ^4.6.6
   ionicons: ^0.2.2
   provider: ^6.1.2
+  qr_code_scanner: ^1.0.1
   qr_flutter: ^4.1.0
   
 
