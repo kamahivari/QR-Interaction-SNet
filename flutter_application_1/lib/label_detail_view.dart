@@ -1,12 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
+import 'dart:typed_data';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
+import 'dart:ui';
 
-class LabelDetailView extends StatelessWidget {
+class LabelDetailView extends StatefulWidget {
   final String labelId;
   final String userId;
+
   LabelDetailView(this.labelId, this.userId);
 
+  @override
+  _LabelDetailViewState createState() => _LabelDetailViewState();
+}
+
+class _LabelDetailViewState extends State<LabelDetailView> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final TextEditingController adController = TextEditingController();
@@ -17,15 +29,51 @@ class LabelDetailView extends StatelessWidget {
   final TextEditingController baslikController = TextEditingController();
 
   @override
+  void dispose() {
+    adController.dispose();
+    soyadController.dispose();
+    numaraController.dispose();
+    notController.dispose();
+    adresController.dispose();
+    baslikController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _shareQRCode() async {
+    try {
+      // Generate the QR code image
+      final qrPainter = QrPainter(
+        data: '${widget.userId}|${widget.labelId}',
+        version: QrVersions.auto,
+        gapless: false,
+        
+      );
+
+      // Convert the QR code to an image file
+      final picData = await qrPainter.toImageData(200, format: ImageByteFormat.png);
+      final buffer = picData!.buffer.asUint8List();
+
+      // Save the image to a temporary directory
+      final tempDir = await getTemporaryDirectory();
+      final file = await File('${tempDir.path}/qr_code.png').writeAsBytes(buffer);
+
+      // Share the image file
+      Share.shareFiles([file.path], text: 'sQR Etiketim');
+    } catch (e) {
+      print('QR code olusturma hatasi: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Label Detail")),
+      appBar: AppBar(title: Text("Etiket Detayları")),
       body: FutureBuilder<DocumentSnapshot>(
         future: _firestore
             .collection('users')
-            .doc(userId)
+            .doc(widget.userId)
             .collection('labels')
-            .doc(labelId)
+            .doc(widget.labelId)
             .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -75,9 +123,9 @@ class LabelDetailView extends StatelessWidget {
                   onPressed: () async {
                     await _firestore
                         .collection('users')
-                        .doc(userId)
+                        .doc(widget.userId)
                         .collection('labels')
-                        .doc(labelId)
+                        .doc(widget.labelId)
                         .update({
                       'Baslik': baslikController.text,
                       'Ad': adController.text,
@@ -88,13 +136,18 @@ class LabelDetailView extends StatelessWidget {
                     });
                     Navigator.of(context).pop();
                   },
-                  child: Text("Update"),
+                  child: Text("Güncelle"),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 QrImageView(
-                  data: '$userId|$labelId',
+                  data: '${widget.userId}|${widget.labelId}',
                   version: QrVersions.auto,
                   size: 200.0,
+                ),
+                SizedBox(height: 2),
+                ElevatedButton(
+                  onPressed: _shareQRCode,
+                  child: Text("Kaydet veya Paylaş"),
                 ),
               ],
             ),

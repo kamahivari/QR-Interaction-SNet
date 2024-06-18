@@ -20,13 +20,17 @@ class AuthService with ChangeNotifier {
 
   Future<void> register(String email, String password, String name) async {
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      User? user = userCredential.user;
+
       // Kullanıcı oluşturulduktan sonra Firestore'a kullanıcı bilgilerini kaydet
-    await _firestore.collection('users').doc(currentUser!.uid).set({
-      'name': name,
-      'email': email,
-    });
-      
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).set({
+          'uid': user.uid, // UID ekleniyor
+          'name': name,
+          'email': email,
+        });
+      }
     } catch (e) {
       print(e);
     }
