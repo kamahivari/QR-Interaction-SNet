@@ -163,7 +163,7 @@ class EtiketCard extends StatelessWidget {
             
             
             Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatView(
-              receiverName:"Anonim",receiverID:userId
+              receiverName:"Yeni Mesaj Gönder",receiverID:userId
               
             ),));
           

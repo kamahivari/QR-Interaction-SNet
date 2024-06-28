@@ -1,14 +1,21 @@
+
+
 import 'package:flutter_application_1/edit_screen.dart';
 import 'package:flutter_application_1/home_page.dart';
+import 'package:flutter_application_1/login_view.dart';
 import 'package:flutter_application_1/widgets/forward_button.dart';
 import 'package:flutter_application_1/widgets/setting_item.dart';
 import 'package:flutter_application_1/widgets/setting_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
+
+import 'services/auth_service.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
-
+ 
+  
   @override
   State<AccountScreen> createState() => _AccountScreenState();
 }
@@ -18,16 +25,10 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+     final authService = Provider.of<AuthService>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => MyHomePage()),
-              );
-          },
-          icon: const Icon(Ionicons.chevron_back_outline),
-        ),
+       
         leadingWidth: 80,
       ),
       body: SingleChildScrollView(
@@ -117,12 +118,17 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
               const SizedBox(height: 20),
               SettingItem(
-                title: "Help",
-                icon: Ionicons.nuclear,
+                title: "Çıkış Yap",
+                icon: Ionicons.log_out_outline,
                 bgColor: Colors.red.shade100,
                 iconColor: Colors.red,
-                onTap: () {},
-              ),
+                onTap: () 
+                  
+                   async {
+              await authService.signOut();
+              
+                
+                  }),
             ],
           ),
         ),

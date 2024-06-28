@@ -5,13 +5,11 @@ import 'package:provider/provider.dart';
 import 'services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    final ChatService _chatService=ChatService();
-    final AuthService _authService=AuthService(); 
+    final ChatService _chatService = ChatService();
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +23,7 @@ class ChatScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Hata'));
           } else if (!snapshot.hasData || !snapshot.data!.exists) {
-            return Center(child: Text('Hiçbir sQR sahibine mesaj göndermediniz.'));
+            return Center(child: Text('Hiçbir kişiye mesaj göndermediniz.'));
           }
 
           List<dynamic> friendList = snapshot.data!['friendlist'];
@@ -34,33 +32,47 @@ class ChatScreen extends StatelessWidget {
             itemCount: friendList.length,
             itemBuilder: (context, index) {
               String friendUid = friendList[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatView(
-              receiverName:"Anonim",receiverID:friendList[index]
-              
-            ),));
-          }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${friendList[index]} tapped')),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-          color:Theme.of(context).primaryColor,borderRadius: BorderRadius.circular(11),
-        ),
-                    padding: const EdgeInsets.all(16.0),
-                    
-                   
-                    child: Text(
-                      friendList[index].toString(),
-                      style: TextStyle(color: Colors.white),
+              return FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
+                builder: (context, friendSnapshot) {
+                  if (friendSnapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (friendSnapshot.hasError) {
+                    return Center(child: Text('Hata'));
+                  } else if (!friendSnapshot.hasData || !friendSnapshot.data!.exists) {
+                    return Center(child: Text('Kullanıcı bulunamadı'));
+                  }
+
+                  String friendName = friendSnapshot.data!['name'];
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatView(
+                              receiverName: friendName,
+                              receiverID: friendUid,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(11),
+                        ),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          friendName,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               );
             },
           );
