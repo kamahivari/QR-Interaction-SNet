@@ -29,6 +29,7 @@ class AuthService with ChangeNotifier {
           'uid': user.uid, // UID ekleniyor
           'name': name,
           'email': email,
+          'friendlist': [] 
         });
       }
     } catch (e) {
@@ -39,4 +40,32 @@ class AuthService with ChangeNotifier {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<void> addContact(String uid) async {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      DocumentReference userDoc = _firestore.collection('users').doc(user.uid);
+      DocumentReference friendDoc = _firestore.collection('users').doc(uid);
+
+      // Firestore kullanıcı belgesindeki friendlist alanını güncelle
+      await userDoc.update({
+        'friendlist': FieldValue.arrayUnion([uid])
+      });
+       // Firestore'da eklenen kullanıcının friendlist alanını da güncelle
+      await friendDoc.update({
+        'friendlist': FieldValue.arrayUnion([user.uid])
+      });
+    }
+  }
+  Stream<DocumentSnapshot> getUserDocumentStream() {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      return _firestore.collection('users').doc(user.uid).snapshots();
+    } else {
+      throw Exception("No user logged in");
+    }
+  }
+
 }

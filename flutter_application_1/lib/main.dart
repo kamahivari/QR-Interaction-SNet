@@ -23,6 +23,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
       ],
       child: MaterialApp(
+        theme:ThemeData(
+           primaryColor:  const Color.fromRGBO(0, 180, 255, 1),
+           secondaryHeaderColor: Color.fromARGB(255, 177, 177, 177),
+        ),
         home: AuthWrapper(),
       ),
     );

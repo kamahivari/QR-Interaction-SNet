@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/chat_view.dart';
+import 'package:flutter_application_1/services/chat_service.dart';
+import 'package:provider/provider.dart';
+import 'services/auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+class ChatScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    final ChatService _chatService=ChatService();
+    final AuthService _authService=AuthService(); 
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sohbetler'),
+      ),
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: authService.getUserDocumentStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Hata'));
+          } else if (!snapshot.hasData || !snapshot.data!.exists) {
+            return Center(child: Text('Hiçbir sQR sahibine mesaj göndermediniz.'));
+          }
+
+          List<dynamic> friendList = snapshot.data!['friendlist'];
+
+          return ListView.builder(
+            itemCount: friendList.length,
+            itemBuilder: (context, index) {
+              String friendUid = friendList[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatView(
+              receiverName:"Anonim",receiverID:friendList[index]
+              
+            ),));
+          }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('${friendList[index]} tapped')),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+          color:Theme.of(context).primaryColor,borderRadius: BorderRadius.circular(11),
+        ),
+                    padding: const EdgeInsets.all(16.0),
+                    
+                   
+                    child: Text(
+                      friendList[index].toString(),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}

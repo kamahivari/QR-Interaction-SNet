@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/chat_view.dart';
+import 'package:flutter_application_1/services/auth_service.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ScannedLabelDetailView extends StatelessWidget {
   final String labelId;
   final String userId;
   ScannedLabelDetailView(this.labelId, this.userId);
-
+  
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final TextEditingController adController = TextEditingController();
@@ -53,6 +58,7 @@ class ScannedLabelDetailView extends StatelessWidget {
                   notController: notController,
                   adresController: adresController,
                   baslikController: baslikController,
+                  userId: userId,
                 ),
                 SizedBox(height: 20),
                 
@@ -73,6 +79,7 @@ class EtiketCard extends StatelessWidget {
   final TextEditingController notController;
   final TextEditingController adresController;
   final TextEditingController baslikController;
+  final String userId;
 
   EtiketCard({
     required this.adController,
@@ -81,6 +88,7 @@ class EtiketCard extends StatelessWidget {
     required this.notController,
     required this.adresController,
     required this.baslikController,
+    required this.userId,
   });
 
   @override
@@ -145,11 +153,28 @@ class EtiketCard extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
+                
               ),
             ),
+            ElevatedButton(onPressed: () async {
+              
+            final _authService = Provider.of<AuthService>(context,listen:false);
+            await _authService.addContact(userId);
+            
+            
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatView(
+              receiverName:"Anonim",receiverID:userId
+              
+            ),));
+          
+            
+            
+            }, 
+            child: Text("Mesaj Gönder"))
           ],
         ),
       ),
     );
+      
   }
 }
