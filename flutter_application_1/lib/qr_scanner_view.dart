@@ -53,19 +53,23 @@ class _QrScannerViewState extends State<QrScannerView> {
         final scannedData = scanData.code;
 
         if (scannedData != null) {
-          final parts = scannedData.split('|');
-          if (parts.length == 2) {
-            final userId = parts[0];
-            final labelId = parts[1];
+  Uri uri = Uri.parse(scannedData);
 
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ScannedLabelDetailView(labelId, userId),
-              ),
-            );
-          }
-        }
-        isScanning = false;
+  String? userId = uri.queryParameters['userId'];
+  String? labelId = uri.queryParameters['labelId'];
+
+  if (userId != null && labelId != null) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ScannedLabelDetailView(labelId, userId),
+      ),
+    );
+  } else {
+    // Handle the case where userId or labelId is null
+    // For example, show an error message
+  }
+}
+        //isScanning = false;
       }
     });
   }

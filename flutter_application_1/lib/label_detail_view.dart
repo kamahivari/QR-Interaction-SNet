@@ -43,7 +43,7 @@ class _LabelDetailViewState extends State<LabelDetailView> {
     try {
       // Generate the QR code image
       final qrPainter = QrPainter(
-        data: '${widget.userId}|${widget.labelId}',
+        data: 'https://socialqr-d2f3e.web.app?userId=${widget.userId}&labelId=${widget.labelId}',
         version: QrVersions.auto,
         gapless: false,
         
@@ -140,10 +140,11 @@ class _LabelDetailViewState extends State<LabelDetailView> {
                 ),
                 SizedBox(height: 10),
                 QrImageView(
-                  data: '${widget.userId}|${widget.labelId}',
-                  version: QrVersions.auto,
-                  size: 200.0,
+          data: 'https://socialqr-d2f3e.web.app?userId=${widget.userId}&labelId=${widget.labelId}',
+          version: QrVersions.auto,
+            size: 200.0,
                 ),
+
                 SizedBox(height: 2),
                 ElevatedButton(
                   onPressed: _shareQRCode,
