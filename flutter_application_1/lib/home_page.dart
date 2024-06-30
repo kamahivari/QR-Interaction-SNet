@@ -140,10 +140,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                     print('QR okut tıklandı');
                   }),
-                  itemDashboard('Profil', CupertinoIcons.person, Colors.orange,
+                  /*   itemDashboard('Profil', CupertinoIcons.person, Colors.orange,
                       () {
                     print('Profil tıklandı');
                   }),
+                  */
                   itemDashboard(
                       'Mesaj', CupertinoIcons.chat_bubble_2, Colors.brown, () {
                     Navigator.of(context).push(
