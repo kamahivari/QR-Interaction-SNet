@@ -1,3 +1,31 @@
+const style = document.createElement('style');
+style.innerHTML = `
+ body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #faf2ff;
+}
+
+
+#card-container {
+background-color: #f1d7ff;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  color: #46394e; 
+  transition: transform 0.3s ease-in-out;
+}
+`;
+document.head.appendChild(style);
 
 var firebaseConfig = {
     apiKey: "AIzaSyBMXWPTuQUygeTM3Q91fsiMrybjcDzVYdU",
