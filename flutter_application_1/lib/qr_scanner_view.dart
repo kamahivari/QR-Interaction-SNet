@@ -27,8 +27,11 @@ class _QrScannerViewState extends State<QrScannerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 200, 0, 177),
-        title: Text('sQR Kodu Tarayın'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          'SQR Kodu Tarayın',
+          style: TextStyle(color: Theme.of(context).textTheme.headline6?.color),
+        ),
       ),
       body: Column(
         children: <Widget>[
@@ -53,22 +56,22 @@ class _QrScannerViewState extends State<QrScannerView> {
         final scannedData = scanData.code;
 
         if (scannedData != null) {
-  Uri uri = Uri.parse(scannedData);
+          Uri uri = Uri.parse(scannedData);
 
-  String? userId = uri.queryParameters['userId'];
-  String? labelId = uri.queryParameters['labelId'];
+          String? userId = uri.queryParameters['userId'];
+          String? labelId = uri.queryParameters['labelId'];
 
-  if (userId != null && labelId != null) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ScannedLabelDetailView(labelId, userId),
-      ),
-    );
-  } else {
-    // Handle the case where userId or labelId is null
-    // For example, show an error message
-  }
-}
+          if (userId != null && labelId != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ScannedLabelDetailView(labelId, userId),
+              ),
+            );
+          } else {
+            // Handle the case where userId or labelId is null
+            // For example, show an error message
+          }
+        }
         //isScanning = false;
       }
     });

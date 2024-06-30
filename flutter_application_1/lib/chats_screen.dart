@@ -13,7 +13,11 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sohbetler'),
+        title: Text(
+          'Sohbetler',
+          style: TextStyle(color: Theme.of(context).textTheme.headline6?.color),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: authService.getUserDocumentStream(),
@@ -33,13 +37,18 @@ class ChatScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               String friendUid = friendList[index];
               return FutureBuilder<DocumentSnapshot>(
-                future: FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(friendUid)
+                    .get(),
                 builder: (context, friendSnapshot) {
-                  if (friendSnapshot.connectionState == ConnectionState.waiting) {
+                  if (friendSnapshot.connectionState ==
+                      ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (friendSnapshot.hasError) {
                     return Center(child: Text('Hata'));
-                  } else if (!friendSnapshot.hasData || !friendSnapshot.data!.exists) {
+                  } else if (!friendSnapshot.hasData ||
+                      !friendSnapshot.data!.exists) {
                     return Center(child: Text('Kullanıcı bulunamadı'));
                   }
 
@@ -61,13 +70,20 @@ class ChatScreen extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(11),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              offset: Offset(0, 3),
+                              blurRadius: 5,
+                            ),
+                          ],
                         ),
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           friendName,
-                          style: TextStyle(color: Colors.white),
+                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
                     ),

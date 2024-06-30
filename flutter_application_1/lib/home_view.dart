@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/create_label_view.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
-
 import 'label_detail_view.dart';
-import 'qr_scanner_view.dart';  // QR tarayıcı ekranını ekleyin
+import 'qr_scanner_view.dart';
 
 class HomeView extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -24,7 +23,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Etiketlerim"),
-         backgroundColor: Color.fromARGB(255, 0, 151, 101),
+        backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -61,10 +60,20 @@ class HomeView extends StatelessWidget {
               final label = labels[index];
 
               return ListTile(
-                title: Text(label['Baslik']),
-                subtitle: Text(label['Ad']),
+                tileColor: Theme.of(context)
+                    .colorScheme
+                    .surface, // Arka plan rengi temadan alınıyor
+                title: Text(
+                  label['Baslik'],
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                subtitle: Text(
+                  label['Ad'],
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: Icon(Icons.delete,
+                      color: Theme.of(context).colorScheme.onSurface),
                   onPressed: () {
                     _firestore
                         .collection('users')

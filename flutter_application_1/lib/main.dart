@@ -3,11 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/account_screen.dart';
 import 'package:flutter_application_1/home_page.dart';
-
 import 'package:provider/provider.dart';
 import 'services/auth_service.dart';
 import 'home_view.dart';
 import 'login_view.dart';
+import 'themes/theme_provider.dart';
+import 'themes/dark_mode.dart';
+import 'themes/light_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,13 +23,21 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(
+            create: (_) => ThemeProvider()), // ThemeProvider'ı ekleyin
       ],
-      child: MaterialApp(
-        theme:ThemeData(
-           primaryColor:  const Color.fromRGBO(0, 180, 255, 1),
-           secondaryHeaderColor: Color.fromARGB(255, 177, 177, 177),
-        ),
-        home: AuthWrapper(),
+      child: Consumer<ThemeProvider>(
+        // ThemeProvider'ı dinleyen bir Consumer ekleyin
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: lightMode,
+            darkTheme: darkMode,
+            themeMode:
+                themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: AuthWrapper(),
+          );
+        },
       ),
     );
   }
