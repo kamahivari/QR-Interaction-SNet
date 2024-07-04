@@ -43,19 +43,21 @@ class _LabelDetailViewState extends State<LabelDetailView> {
     try {
       // Generate the QR code image
       final qrPainter = QrPainter(
-        data: 'https://socialqr-d2f3e.web.app?userId=${widget.userId}&labelId=${widget.labelId}',
+        data:
+            'https://socialqr-d2f3e.web.app?userId=${widget.userId}&labelId=${widget.labelId}',
         version: QrVersions.auto,
         gapless: false,
-        
       );
 
       // Convert the QR code to an image file
-      final picData = await qrPainter.toImageData(200, format: ImageByteFormat.png);
+      final picData =
+          await qrPainter.toImageData(200, format: ImageByteFormat.png);
       final buffer = picData!.buffer.asUint8List();
 
       // Save the image to a temporary directory
       final tempDir = await getTemporaryDirectory();
-      final file = await File('${tempDir.path}/qr_code.png').writeAsBytes(buffer);
+      final file =
+          await File('${tempDir.path}/qr_code.png').writeAsBytes(buffer);
 
       // Share the image file
       Share.shareFiles([file.path], text: 'sQR Etiketim');
@@ -89,7 +91,7 @@ class _LabelDetailViewState extends State<LabelDetailView> {
           adresController.text = label['Adres'];
           baslikController.text = label['Baslik'];
 
-          return Padding(
+          return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,22 +100,27 @@ class _LabelDetailViewState extends State<LabelDetailView> {
                   controller: baslikController,
                   decoration: InputDecoration(labelText: "Baslik"),
                 ),
+                SizedBox(height: 10),
                 TextField(
                   controller: adController,
                   decoration: InputDecoration(labelText: "Ad"),
                 ),
+                SizedBox(height: 10),
                 TextField(
                   controller: soyadController,
                   decoration: InputDecoration(labelText: "Soyad"),
                 ),
+                SizedBox(height: 10),
                 TextField(
                   controller: numaraController,
                   decoration: InputDecoration(labelText: "Numara"),
                 ),
+                SizedBox(height: 10),
                 TextField(
                   controller: notController,
                   decoration: InputDecoration(labelText: "Not"),
                 ),
+                SizedBox(height: 10),
                 TextField(
                   controller: adresController,
                   decoration: InputDecoration(labelText: "Adres"),
@@ -140,11 +147,11 @@ class _LabelDetailViewState extends State<LabelDetailView> {
                 ),
                 SizedBox(height: 10),
                 QrImageView(
-          data: 'https://socialqr-d2f3e.web.app?userId=${widget.userId}&labelId=${widget.labelId}',
-          version: QrVersions.auto,
-            size: 200.0,
+                  data:
+                      'https://socialqr-d2f3e.web.app?userId=${widget.userId}&labelId=${widget.labelId}',
+                  version: QrVersions.auto,
+                  size: 200.0,
                 ),
-
                 SizedBox(height: 2),
                 ElevatedButton(
                   onPressed: _shareQRCode,

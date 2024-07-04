@@ -18,36 +18,45 @@ class CreateLabelView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Etiket Oluştur")),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(13.0),
         child: Column(
           children: [
             TextField(
               controller: baslikController,
-              decoration: InputDecoration(labelText: "Baslik",border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12)))
+              decoration: InputDecoration(
+                labelText: "Baslik",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: adController,
-              decoration: InputDecoration(labelText: "Ad",),
+              decoration: InputDecoration(labelText: "Ad"),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: soyadController,
               decoration: InputDecoration(labelText: "Soyad"),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: numaraController,
               decoration: InputDecoration(labelText: "Numara"),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: notController,
               decoration: InputDecoration(labelText: "Not"),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: adresController,
               decoration: InputDecoration(labelText: "Adres"),
             ),
-            
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 final docRef = await _firestore
