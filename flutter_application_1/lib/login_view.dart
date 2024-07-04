@@ -116,7 +116,7 @@ class _LoginViewState extends State<LoginView> {
     )),
   );
             }, child: _buildBlueText("Kaydınız yok mu? Hemen kayıt oluşturun."),),
-        _buildOtherLogin(),
+        
       ],
     );
   }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/aboutus.dart';
 import 'package:flutter_application_1/account_screen.dart';
 import 'package:flutter_application_1/chats_screen.dart';
+import 'package:flutter_application_1/help.dart';
 import 'package:flutter_application_1/home_view.dart';
 import 'package:flutter_application_1/label_detail_view.dart';
 import 'package:flutter_application_1/qr_scanner_view.dart';
@@ -162,11 +164,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemDashboard(
                       'Yardım', CupertinoIcons.heart_circle, Colors.red, () {
                     print('Yardım tıklandı');
+                     Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HelpScreen()),
+                    );
                   }),
                   itemDashboard(
                       'Hakkımızda', CupertinoIcons.question_circle, Colors.blue,
                       () {
                     print('Hakkımızda tıklandı');
+                     Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AboutUS()),
+                    );
+
                   }),
                 ],
               ),

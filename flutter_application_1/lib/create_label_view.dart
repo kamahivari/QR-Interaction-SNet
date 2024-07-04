@@ -19,7 +19,7 @@ class CreateLabelView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Etiket Oluştur")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(13.0),
         child: Column(
           children: [
             TextField(
@@ -47,7 +47,7 @@ class CreateLabelView extends StatelessWidget {
               controller: adresController,
               decoration: InputDecoration(labelText: "Adres"),
             ),
-            SizedBox(height: 20),
+            
             ElevatedButton(
               onPressed: () async {
                 final docRef = await _firestore

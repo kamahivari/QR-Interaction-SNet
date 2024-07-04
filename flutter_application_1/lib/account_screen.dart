@@ -112,6 +112,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 iconColor: Colors.red,
                 onTap: () async {
                   await authService.signOut();
+                  Navigator.pop(context);
                 },
               ),
             ],

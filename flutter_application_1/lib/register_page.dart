@@ -108,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
         const SizedBox(height: 20),
         _buildRegisterButton(),
         const SizedBox(height: 20),
-        _buildOtherLogin(),
+        
       ],
     );
   }

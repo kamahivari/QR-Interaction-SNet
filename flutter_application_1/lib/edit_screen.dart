@@ -1,16 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/services/auth_service.dart';
 import 'package:flutter_application_1/widgets/edit_item.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class EditAccountScreen extends StatefulWidget {
   const EditAccountScreen({super.key});
-
+  
   @override
   State<EditAccountScreen> createState() => _EditAccountScreenState();
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
   String gender = "man";
+  final TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                final authService = Provider.of<AuthService>(context, listen: false);
+                String newName = nameController.text; 
+                await authService.updateUserName(newName);
+                Navigator.pop(context);
+              },
               style: IconButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
                 shape: RoundedRectangleBorder(
@@ -48,7 +57,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Account",
+                "Hesap",
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
@@ -69,66 +78,23 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.lightBlueAccent,
                       ),
-                      child: const Text("Upload Image"),
+                      child: const Text("Avatar seç"),
                     )
                   ],
                 ),
               ),
-              const EditItem(
-                title: "Name",
-                widget: TextField(),
-              ),
-              const SizedBox(height: 40),
               EditItem(
-                title: "Gender",
-                widget: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          gender = "man";
-                        });
-                      },
-                      style: IconButton.styleFrom(
-                        backgroundColor: gender == "man"
-                            ? Colors.deepPurple
-                            : Colors.grey.shade200,
-                        fixedSize: const Size(50, 50),
-                      ),
-                      icon: Icon(
-                        Ionicons.male,
-                        color: gender == "man" ? Colors.white : Colors.black,
-                        size: 18,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          gender = "woman";
-                        });
-                      },
-                      style: IconButton.styleFrom(
-                        backgroundColor: gender == "woman"
-                            ? Colors.deepPurple
-                            : Colors.grey.shade200,
-                        fixedSize: const Size(50, 50),
-                      ),
-                      icon: Icon(
-                        Ionicons.female,
-                        color: gender == "woman" ? Colors.white : Colors.black,
-                        size: 18,
-                      ),
-                    )
-                  ],
+                title: "İsim",
+                widget: TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: "Yeni ismi girin",
+                  ),
                 ),
               ),
               const SizedBox(height: 40),
-              const EditItem(
-                widget: TextField(),
-                title: "Age",
-              ),
-              const SizedBox(height: 40),
+
+            
               const EditItem(
                 widget: TextField(),
                 title: "Email",

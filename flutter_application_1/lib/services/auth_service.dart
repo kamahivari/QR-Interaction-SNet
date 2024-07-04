@@ -67,5 +67,19 @@ class AuthService with ChangeNotifier {
       throw Exception("No user logged in");
     }
   }
+  Future<void> updateUserName(String newName) async {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      try {
+        await _firestore.collection('users').doc(user.uid).update({'name': newName});
+        notifyListeners();
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      throw Exception("No user logged in");
+    }
+  }
 
 }
