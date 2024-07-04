@@ -85,7 +85,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 style: textTheme.headline2
                     ?.copyWith(fontSize: 24, fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 20),
+              /*   const SizedBox(height: 20),
               SettingItem(
                 title: "Bildirimler",
                 icon: Ionicons.notifications,
@@ -93,6 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 iconColor: Colors.blue,
                 onTap: () {},
               ),
+              */
               const SizedBox(height: 20),
               SettingSwitch(
                 title: "Dark Mode",
